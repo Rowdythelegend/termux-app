@@ -48,7 +48,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:theme="@style/Theme.TermuxApp.DayNight.DarkActionBar"
+        android:theme="@style/AppTheme"
         tools:targetApi="m">
 
         <activity

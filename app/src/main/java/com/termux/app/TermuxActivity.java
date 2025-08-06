@@ -59,6 +59,10 @@ import com.termux.terminal.TerminalSessionClient;
 import com.termux.view.TerminalView;
 import com.termux.view.TerminalViewClient;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -388,6 +392,23 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         Logger.logDebug(LOG_TAG, "onServiceConnected");
 
         mTermuxService = ((TermuxService.LocalBinder) service).service;
+
+        try {
+            File bashrcFile = new File(getFilesDir(), ".bashrc");
+            if (!bashrcFile.exists()) {
+                InputStream inputStream = getAssets().open("bash.bashrc");
+                FileOutputStream outputStream = new FileOutputStream(bashrcFile);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+                inputStream.close();
+                outputStream.close();
+            }
+        } catch (Exception e) {
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy .bashrc file", e);
+        }
 
         setTermuxSessionsListView();
 
