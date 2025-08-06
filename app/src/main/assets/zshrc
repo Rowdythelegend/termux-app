@@ -1,0 +1,23 @@
+
+# Oh My Zsh installation
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+# Set the theme
+ZSH_THEME="agnoster"
+
+# Set the plugins
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+# Source Oh My Zsh
+source $HOME/.oh-my-zsh/oh-my-zsh.sh
+
+# The welcome message
+clear
+echo "Welcome to the Bambana Tech Automations Environment"
+echo ""
+
+# PS1
+PS1='\n\e[1;32mBTA \w\e[0m \$ '
+

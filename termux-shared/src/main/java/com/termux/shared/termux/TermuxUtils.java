@@ -605,7 +605,7 @@ public class TermuxUtils {
         aptInfoScript = aptInfoScript.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
 
         ExecutionCommand executionCommand = new ExecutionCommand(-1,
-            TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, aptInfoScript,
+            TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/zsh", null, aptInfoScript,
             null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
         executionCommand.commandLabel = "APT Info Command";
         executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;

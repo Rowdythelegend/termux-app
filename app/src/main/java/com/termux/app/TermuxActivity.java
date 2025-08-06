@@ -394,10 +394,10 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         mTermuxService = ((TermuxService.LocalBinder) service).service;
 
         try {
-            File bashrcFile = new File(getFilesDir(), ".bashrc");
-            if (!bashrcFile.exists()) {
-                InputStream inputStream = getAssets().open("bash.bashrc");
-                FileOutputStream outputStream = new FileOutputStream(bashrcFile);
+            File zshrcFile = new File(getFilesDir(), ".zshrc");
+            if (!zshrcFile.exists()) {
+                InputStream inputStream = getAssets().open("zshrc");
+                FileOutputStream outputStream = new FileOutputStream(zshrcFile);
                 byte[] buffer = new byte[1024];
                 int length;
                 while ((length = inputStream.read(buffer)) > 0) {
@@ -407,7 +407,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
                 outputStream.close();
             }
         } catch (Exception e) {
-            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy .bashrc file", e);
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy .zshrc file", e);
         }
 
         setTermuxSessionsListView();
