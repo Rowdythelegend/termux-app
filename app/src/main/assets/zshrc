@@ -34,3 +34,23 @@ for package in $packages; do
   fi
 done
 
+# Aliases
+alias ls='ls -F'
+alias ll='ls -l'
+alias la='ls -a'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias mkdir='mkdir -p'
+alias h='history'
+alias j='jobs -l'
+alias c='clear'
+alias e='exit'
+alias vi='nvim'
+alias vim='nvim'
+

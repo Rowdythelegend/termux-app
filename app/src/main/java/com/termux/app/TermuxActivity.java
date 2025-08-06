@@ -394,20 +394,9 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         mTermuxService = ((TermuxService.LocalBinder) service).service;
 
         try {
-            File zshrcFile = new File(getFilesDir(), ".zshrc");
-            if (!zshrcFile.exists()) {
-                InputStream inputStream = getAssets().open("zshrc");
-                FileOutputStream outputStream = new FileOutputStream(zshrcFile);
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, length);
-                }
-                inputStream.close();
-                outputStream.close();
-            }
+            copyAssets();
         } catch (Exception e) {
-            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy .zshrc file", e);
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy assets", e);
         }
 
         setTermuxSessionsListView();
@@ -1029,6 +1018,53 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         Intent intent = new Intent(context, TermuxActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
+    }
+
+    private void copyAssets() {
+        try {
+            String[] assetFolders = {"home"};
+            for (String folder : assetFolders) {
+                copyAssetFolder(folder, getFilesDir().getAbsolutePath());
+            }
+        } catch (Exception e) {
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy assets", e);
+        }
+    }
+
+    private void copyAssetFolder(String assetFolder, String destFolder) {
+        try {
+            String[] files = getAssets().list(assetFolder);
+            for (String file : files) {
+                String assetPath = assetFolder + "/" + file;
+                String destPath = destFolder + "/" + file;
+                String[] subFiles = getAssets().list(assetPath);
+                if (subFiles.length == 0) {
+                    copyAsset(assetPath, destPath);
+                } else {
+                    File subDir = new File(destPath);
+                    subDir.mkdirs();
+                    copyAssetFolder(assetPath, destPath);
+                }
+            }
+        } catch (Exception e) {
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy asset folder", e);
+        }
+    }
+
+    private void copyAsset(String assetPath, String destPath) {
+        try {
+            InputStream in = getAssets().open(assetPath);
+            FileOutputStream out = new FileOutputStream(destPath);
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to copy asset file", e);
+        }
     }
 
 }
