@@ -21,3 +21,16 @@ echo ""
 # PS1
 PS1='\n\e[1;32mBTA \w\e[0m \$ '
 
+# Install essential packages
+
+# List of packages to install
+packages="mpv yt-dlp ranger fzf ripgrep rclone neovim gh tmux htop tldr"
+
+# Check for and install packages
+for package in $packages; do
+  if ! command -v $package &> /dev/null; then
+    echo "Installing $package..."
+    pkg install -y $package
+  fi
+done
+
